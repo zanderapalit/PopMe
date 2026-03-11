@@ -2,7 +2,7 @@
 
 PopMe is a to‑do app where tasks live as floating bubbles instead of a list. Priority controls bubble size, energy controls bubble color, and tasks gently hover to feel alive. There’s a soft “add task” bubble at the bottom, an edit modal with live preview, and recent tasks you can restore later.
 
-![PopMe App](popme.png)
+![PopMe App](/popme.png)
 
 ## What it does
 
