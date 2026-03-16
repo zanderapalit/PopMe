@@ -1,24 +1,23 @@
 # PopMe
 
-PopMe is a to‑do app where tasks live as floating bubbles instead of a list. Priority controls bubble size, energy controls bubble color, and tasks gently hover to feel alive. There’s a soft “add task” bubble at the bottom, an edit modal with live preview, and recent tasks you can restore later.
+PopMe is a playful to‑do app where tasks live as floating bubbles instead of a list. Priority controls bubble size, energy controls bubble color, and tasks gently hover to feel alive. There’s a soft “add task” bubble at the bottom, an edit modal with live preview, and recent tasks you can restore later.
 
 ![PopMe App](/popme.PNG)
 
 ## What it does
 
-- Create tasks from a bottom “add task” bubble  
-- Tasks appear as floating bubbles on the home screen  
-- Size = priority, color = energy  
-- Tap to select, double‑tap to edit  
-- Edit modal with live preview, sliders, due date, and subtasks  
-- Long‑press a bubble to pop/delete it (with sound + haptic)  
-- Recent Tasks screen to restore deleted items  
+- Create tasks from a bottom “add task” bubble
+- Tasks appear as floating bubbles on the home screen
+- Size = priority, color = energy
+- Tap to select, double‑tap to edit
+- Edit modal with live preview, sliders, due date, and subtasks
+- Long‑press a bubble to pop/delete it (with sound + haptic)
+- Recent Tasks screen to restore deleted items
 
 ## Requirements
 
-- Node.js 18+ recommended  
-- Expo CLI (installed automatically via `npx expo`)  
-
+- Node.js 18+ recommended
+- Expo CLI (installed automatically via `npx expo`)
 ## Install
 
 ```bash
@@ -32,9 +31,29 @@ expo install expo-linear-gradient expo-blur expo-av @react-native-community/slid
 npm start
 ```
 
-## Running With IOS and Expo Go App
+Then open with:
 
-```bash
-npx expo start --tunnel
+- iOS Simulator: press `i`
+- Android Emulator: press `a`
+- Physical device: scan the QR code with Expo Go
+
+## Project layout
+
 ```
-Scan QR code and it should open on the Expo Go App
+app/                   Screens and routes (Expo Router)
+components/            Reusable UI pieces (bubbles, modal, input)
+data/                  Sample task data
+store/                 Local state (tasks context)
+types/                 Type definitions
+utils/                 Helpers (bubble sizing, dates, layout, haptics)
+assets/sounds/         Pop sound
+```
+
+## Notes
+
+- Data is stored in local state for now. The structure is ready for AsyncStorage or a backend later.
+- The add‑task bubble is a button that opens a name prompt instead of typing inline.
+
+## License
+
+MIT
