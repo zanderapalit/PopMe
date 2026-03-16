@@ -1,6 +1,6 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 
 import { Subtask } from '@/types/task';
 
@@ -22,7 +22,7 @@ export const SubtaskOrbit = ({
   return (
     <View pointerEvents="none" style={styles.container}>
       {subtasks.slice(0, maxBubbles).map((subtask, index) => {
-        const angle = (Math.PI * 2 * index) / maxBubbles - Math.PI / 2;
+        const angle = - (Math.PI * index) / maxBubbles - 3 / 4 * Math.PI ;
         const x = radius * Math.cos(angle) - bubbleSize / 2;
         const y = radius * Math.sin(angle) - bubbleSize / 2;
         const label = subtask.title.trim() || '...';
