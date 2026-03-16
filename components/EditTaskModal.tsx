@@ -50,7 +50,7 @@ export const EditTaskModal = ({
   const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (!task) return;
+    if (!task || !visible) return;
     setDraftTitle(task.title);
     setDraftPriority(task.priority);
     setDraftEnergy(task.energy);
@@ -59,7 +59,7 @@ export const EditTaskModal = ({
     setShowSubtaskPrompt(false);
     setShowDatePrompt(false);
     setDateDraft(task.dueDate ? task.dueDate.slice(0, 10) : '');
-  }, [task]);
+  }, [task?.id, visible]);
 
   useEffect(() => {
     if (visible) {
