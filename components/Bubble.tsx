@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Animated,
@@ -9,7 +10,6 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 
 import { SubtaskOrbit } from '@/components/SubtaskOrbit';
 import { Subtask } from '@/types/task';
@@ -145,24 +145,6 @@ export const Bubble = ({
     [colorPair.to]
   );
 
-  const handlePress = () => {
-    if (!onPress && !onDoublePress) return;
-
-    const now = Date.now();
-    if (lastTap.current && now - lastTap.current < 260) {
-      if (tapTimeout.current) clearTimeout(tapTimeout.current);
-      lastTap.current = null;
-      onDoublePress?.();
-      return;
-    }
-
-    lastTap.current = now;
-    tapTimeout.current = setTimeout(() => {
-      onPress?.();
-      lastTap.current = null;
-    }, 260);
-  };
-
   const handlePop = () => {
     if (!onPop) return;
     playPopFeedback();
@@ -187,7 +169,7 @@ export const Bubble = ({
   };
 
   return (
-    <Pressable onPress={handlePress} onLongPress={handlePop} delayLongPress={420} style={style}>
+    <Pressable onPress = {onPress} onLongPress={handlePop} delayLongPress={420} style={style}>
       <View style={styles.wrapper}>
         <SubtaskOrbit subtasks={subtasks} parentSize={size} colors={colors} />
         <Animated.View
@@ -249,5 +231,6 @@ const styles = StyleSheet.create({
     color: '#1D2733',
     fontSize: 13,
     fontWeight: '600',
+    userSelect: 'none',
   },
 });

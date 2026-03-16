@@ -1,3 +1,5 @@
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import {
   LayoutChangeEvent,
@@ -8,17 +10,15 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
 
 import { Bubble } from '@/components/Bubble';
 import { BubbleInput } from '@/components/BubbleInput';
 import { EditTaskModal } from '@/components/EditTaskModal';
 import { useTasks } from '@/store/tasks-context';
+import { Task } from '@/types/task';
 import { getBubbleSize, getEnergyColors } from '@/utils/bubble';
 import { layoutBubbles } from '@/utils/layout';
-import { Task } from '@/types/task';
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
@@ -85,8 +85,8 @@ export default function HomeScreen() {
         colors={getEnergyColors(task.energy)}
         subtasks={task.subtasks}
         selected={selectedId === task.id}
-        onPress={() => setSelectedId(task.id)}
-        onDoublePress={() => setEditingId(task.id)}
+        onPress={() => {setSelectedId(task.id);
+                        setEditingId(task.id)}}
         onPop={() => markTaskStatus(task.id, 'deleted')}
         spawnOffset={spawnOffset}
         style={{ position: 'absolute', left, top }}
