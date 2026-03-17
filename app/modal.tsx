@@ -1,18 +1,40 @@
-import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { useTasks } from '@/store/tasks-context';
 import { formatDate } from '@/utils/date';
 
 export default function ModalScreen() {
   const router = useRouter();
-  const { tasks, markTaskStatus } = useTasks();
+  const { tasks, removeTask, markTaskStatus } = useTasks();
 
-  const recentTasks = tasks.filter((task) => task.status !== 'active');
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [selectedId, setSelectedId] = useState(' ');
+
+  const recentTasks = tasks.filter((task) => task.status === 'completed');
 
   return (
     <View style={styles.container}>
+      <Modal transparent visible={showConfirmModal} animationType="fade">
+        <View style={styles.confirmOverlay}>
+          <View style={styles.confirmCard}>
+            <Text style={styles.confirmTitle}>Are you sure you want to delete this task?</Text>
+            <View style={styles.confirmActions}>
+              <Pressable onPress={() => setShowConfirmModal(false)} style={styles.cancel}>
+                <Text style={styles.cancelText}>No</Text>
+              </Pressable>
+              <Pressable onPress={() => {removeTask(selectedId);
+                                         setSelectedId(' ');
+                                         setShowConfirmModal(false);
+              }} style={styles.confirm}>
+                <Text style={styles.confirmText}>Yes</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       <View style={styles.header}>
         <Text style={styles.title}>Recent Tasks</Text>
         <Pressable onPress={() => router.back()} style={styles.closeButton}>
@@ -21,7 +43,7 @@ export default function ModalScreen() {
       </View>
 
       {recentTasks.length === 0 ? (
-        <Text style={styles.emptyText}>No recent tasks yet.</Text>
+        <Text style={styles.emptyText}>No tasks to display...</Text>
       ) : (
         <View style={styles.list}>
           {recentTasks.map((task) => (
@@ -32,6 +54,13 @@ export default function ModalScreen() {
                   {task.status.toUpperCase()} · {formatDate(task.dueDate)}
                 </Text>
               </View>
+              <Pressable
+                onPress = { () => {setShowConfirmModal(true);
+                                  setSelectedId(task.id)}
+                 }
+                style={styles.deleteButton}>
+                <Text style={styles.deleteText}>Delete</Text>
+              </Pressable>
               <Pressable
                 onPress={() => markTaskStatus(task.id, 'active')}
                 style={styles.restoreButton}>
@@ -46,6 +75,57 @@ export default function ModalScreen() {
 }
 
 const styles = StyleSheet.create({
+  confirmOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(10, 16, 26, 0.4)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 24,
+  },
+  confirmCard: {
+    width: '100%',
+    maxWidth: 320,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    padding: 18,
+    shadowColor: '#0E1A2A',
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 8,
+  },
+  confirmTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#1D2733',
+    marginBottom: 10,
+  },
+  confirmActions: {
+    marginTop: 14,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 10,
+  },
+  cancel: {
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 10,
+    backgroundColor: 'rgba(29,39,51,0.08)',
+  },
+  cancelText: {
+    color: '#1D2733',
+    fontWeight: '600',
+  },
+  confirm: {
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderRadius: 10,
+    backgroundColor: '#1D2733',
+  },
+  confirmText: {
+    color: '#FFFFFF',
+    fontWeight: '600',
+  },
   container: {
     flex: 1,
     paddingTop: 60,
@@ -73,6 +153,18 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
     color: '#1D2733',
+  },
+  deleteButton: {
+    marginRight: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 12,
+    backgroundColor: 'rgba(216, 13, 13, 0.77)',
+  },
+  deleteText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#2d2d2d',
   },
   emptyText: {
     fontSize: 14,
@@ -109,6 +201,7 @@ const styles = StyleSheet.create({
     color: '#6B7C93',
   },
   restoreButton: {
+    marginRight: 12,
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 12,

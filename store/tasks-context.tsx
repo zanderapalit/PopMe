@@ -10,6 +10,7 @@ export type TaskUpdate = Partial<Omit<Task, 'id' | 'createdAt'>>;
 export type TasksContextValue = {
   tasks: Task[];
   addTask: (title: string, overrides?: Partial<Omit<Task, 'id' | 'title' | 'createdAt'>>) => string;
+  removeTask: (title: string) => void;
   updateTask: (id: string, updates: TaskUpdate) => void;
   markTaskStatus: (id: string, status: TaskStatus) => void;
   addSubtask: (taskId: string, title: string) => void;
@@ -55,6 +56,12 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
             }
           : task
       )
+    );
+  }, []);
+
+  const removeTask = useCallback((id: string) => {
+    setTasks((prev) =>
+      prev.filter((task) => task.id !== id)
     );
   }, []);
 
@@ -106,8 +113,8 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const value = useMemo(
-    () => ({ tasks, addTask, updateTask, markTaskStatus, addSubtask, toggleSubtask }),
-    [tasks, addTask, updateTask, markTaskStatus, addSubtask, toggleSubtask]
+    () => ({ tasks, addTask, removeTask, updateTask, markTaskStatus, addSubtask, toggleSubtask }),
+    [tasks, addTask, removeTask, updateTask, markTaskStatus, addSubtask, toggleSubtask]
   );
 
   return <TasksContext.Provider value={value}>{children}</TasksContext.Provider>;

@@ -87,7 +87,7 @@ export default function HomeScreen() {
         selected={selectedId === task.id}
         onPress={() => {setSelectedId(task.id);
                         setEditingId(task.id)}}
-        onPop={() => markTaskStatus(task.id, 'deleted')}
+        onPop={() => markTaskStatus(task.id, 'completed')}
         spawnOffset={spawnOffset}
         style={{ position: 'absolute', left, top }}
       />
@@ -158,7 +158,7 @@ export default function HomeScreen() {
         onClose={() => setEditingId(null)}
         onSave={(taskId, updates) => updateTask(taskId, updates)}
         onDelete={(taskId) => {
-          markTaskStatus(taskId, 'deleted');
+          markTaskStatus(taskId, 'completed');
           setEditingId(null);
         }}
         onAddSubtask={addSubtask}
