@@ -159,12 +159,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 12,
-    backgroundColor: 'rgba(216, 13, 13, 0.77)',
+    backgroundColor: 'rgba(255, 115, 115, 0.2)',
+    alignItems: 'center',
   },
   deleteText: {
     fontSize: 12,
+    color: '#B24040',
     fontWeight: '600',
-    color: '#2d2d2d',
   },
   emptyText: {
     fontSize: 14,
